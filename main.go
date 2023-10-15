@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -20,6 +21,7 @@ func initProcedure() {
 }
 
 func main() {
+	fmt.Println(getLocalIPs())
 	log.Info().Msg("Buddy Link Prometheus exporter starting")
 	initProcedure()                          // initialize
 	if config.Exporter.ReloadInterval != 0 { // do not run reloader if interval is set to zero
