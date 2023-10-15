@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"net/http"
 	"os"
 	"strings"
 	"time"
@@ -104,25 +103,6 @@ func parseConfig(path string) configuration {
 		log.Error().Msg(e.Error())
 	}
 	return p
-}
-
-func probeConfigFile(parsedConfig configuration) configuration {
-	for i, s := range parsedConfig.Printers.Buddy {
-		if testConnection(s.Address) {
-			parsedConfig.Printers.Buddy[i].Reachable = true
-		} else {
-			parsedConfig.Printers.Buddy[i].Reachable = false
-			log.Error().Msg(s.Address + " is not reachable")
-		}
-	}
-	return parsedConfig
-}
-
-func testConnection(s string) bool {
-	req, _ := http.NewRequest("GET", "http://"+s+"/", nil)
-	client := &http.Client{Timeout: time.Duration(config.Exporter.ScrapeTimeout) * time.Second}
-	r, e := client.Do(req)
-	return e == nil && r.StatusCode == 200
 }
 
 func configReloader() {
