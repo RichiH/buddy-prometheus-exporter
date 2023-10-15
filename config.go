@@ -15,17 +15,18 @@ import (
 var config configuration
 
 type buddy struct {
-	Address   string `yaml:"address"`
+	Address   string `yaml:"address,omitempty"`
+	Mac       string `yaml:"mac,omitempty"`
+	Username  string `yaml:"username"`
+	Pass      string `yaml:"pass"`
 	Name      string `yaml:"name"`
 	Type      string `yaml:"type"`
-	Username  string `yaml:"username,omitempty"`
-	Pass      string `yaml:"pass,omitempty"`
-	Apikey    string `yaml:"apikey,omitempty"`
 	Reachable bool
 }
 
 type einsy struct {
-	Address   string `yaml:"address"`
+	Address   string `yaml:"address,omitempty"`
+	Mac       string `yaml:"mac,omitempty"`
 	Apikey    string `yaml:"apikey"`
 	Name      string `yaml:"name"`
 	Type      string `yaml:"type"`
@@ -33,16 +34,16 @@ type einsy struct {
 }
 
 type configuration struct {
-	Printers struct {
-		Buddy []buddy `yaml:"buddy"`
-		Einsy []einsy `yaml:"einsy"`
-	} `yaml:"printers"`
 	Exporter struct {
 		MetricsPort    int    `yaml:"metrics_port"`
 		ScrapeTimeout  int    `yaml:"scrape_timeout"`
 		ReloadInterval int    `yaml:"reload_interval"`
 		LogLevel       string `yaml:"log_level"`
 	} `yaml:"exporter"`
+	Printers struct {
+		Buddy []buddy `yaml:"buddy"`
+		Einsy []einsy `yaml:"einsy"`
+	} `yaml:"printers"`
 }
 
 func setLogLevel(level string) string {
